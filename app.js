@@ -82,7 +82,7 @@ const BLOCKS = [
 // ─────────────────────────────────────────────────────────────
 // EPD5: INTRODUCCIÓN A PL/SQL
 // ─────────────────────────────────────────────────────────────
-{id:'epd5',tag:'EPD5',title:'Introducción a PL/SQL',
+{id:'epd5',tag:'PR 1',title:'Introducción a PL/SQL',
  desc:'Bloques, tipos de datos, variables, %TYPE, %ROWTYPE, SELECT INTO y salida',
  teoria:[
   {title:'¿Qué es PL/SQL?',html:`
@@ -267,7 +267,7 @@ END;`,
 // ─────────────────────────────────────────────────────────────
 // EPD6: ESTRUCTURAS DE CONTROL
 // ─────────────────────────────────────────────────────────────
-{id:'epd6',tag:'EPD6',title:'Estructuras de Control',
+{id:'epd6',tag:'PR 2',title:'Estructuras de Control',
  desc:'IF/ELSIF/ELSE, CASE, LOOP, WHILE, FOR y CONTINUE',
  teoria:[
   {title:'Condicional IF / ELSIF / ELSE',html:`
@@ -468,7 +468,7 @@ END IF;`,
 // ─────────────────────────────────────────────────────────────
 // EPD7: FUNCIONES SQL Y CURSORES
 // ─────────────────────────────────────────────────────────────
-{id:'epd7',tag:'EPD7',title:'Funciones SQL y Cursores',
+{id:'epd7',tag:'PR 3',title:'Funciones SQL y Cursores',
  desc:'Funciones predefinidas, cursores explícitos, atributos y bucles de extracción',
  teoria:[
   {title:'Funciones SQL predefinidas',html:`
@@ -682,7 +682,7 @@ CURSOR c_Students IS
 // ─────────────────────────────────────────────────────────────
 // EPD8: TRATAMIENTO DE ERRORES
 // ─────────────────────────────────────────────────────────────
-{id:'epd8',tag:'EPD8',title:'Tratamiento de Errores',
+{id:'epd8',tag:'PR 4',title:'Tratamiento de Errores',
  desc:'Excepciones predefinidas y de usuario, RAISE, WHEN OTHERS, SQLCODE/SQLERRM',
  teoria:[
   {title:'Excepciones predefinidas',html:`
@@ -874,7 +874,7 @@ END;`,
 // ─────────────────────────────────────────────────────────────
 // EPD9: PROCEDIMIENTOS Y FUNCIONES
 // ─────────────────────────────────────────────────────────────
-{id:'epd9',tag:'EPD9',title:'Procedimientos y Funciones',
+{id:'epd9',tag:'PR 5',title:'Procedimientos y Funciones',
  desc:'CREATE PROCEDURE, CREATE FUNCTION, parámetros IN/OUT/IN OUT y DROP',
  teoria:[
   {title:'Procedimientos almacenados',html:`
@@ -1075,7 +1075,7 @@ END GetSal;`,
 // ─────────────────────────────────────────────────────────────
 // EPD10: PAQUETES
 // ─────────────────────────────────────────────────────────────
-{id:'epd10',tag:'EPD10',title:'Paquetes',
+{id:'epd10',tag:'PR 6',title:'Paquetes',
  desc:'CREATE PACKAGE, PACKAGE BODY, ámbitos, sobrecarga y matrices asociativas',
  teoria:[
   {title:'¿Qué es un paquete?',html:`
@@ -1260,7 +1260,7 @@ BEGIN DELETE FROM emp WHERE empno=p_empno; END;`,
 // ─────────────────────────────────────────────────────────────
 // EPD11: REPASO GENERAL
 // ─────────────────────────────────────────────────────────────
-{id:'epd11',tag:'EPD11',title:'Repaso General PL/SQL',
+{id:'epd11',tag:'PR 7',title:'Repaso General PL/SQL',
  desc:'Ejercicios integrados que combinan bloques, cursores, excepciones, procedimientos y paquetes',
  teoria:[
   {title:'Resumen de conceptos EPD5–EPD10',html:`
