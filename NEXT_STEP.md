@@ -10,5 +10,6 @@
 - Verificado en navegador (Playwright): renderizado, interacción V/F y despliegue de soluciones OK. Sin errores de consola (salvo favicon 404).
 
 ## Siguiente paso
-- Subido a GitHub (`origin/master` → upocuantitativo/plssql-interactivo, que publica en https://upo.digital/plssql/). Verificar que GitHub Pages despliega la nueva versión.
+- Cambios commiteados y subidos a GitHub (`origin/master` → upocuantitativo/plssql-interactivo).
+- **PENDIENTE: desplegar en https://upo.digital/plssql/** — OJO: ese sitio NO es GitHub Pages, corre sobre un servidor **LiteSpeed** (hosting tipo cPanel) que se actualiza por separado (FTP/SFTP/cPanel). El push a GitHub no lo actualiza. Hay que subir manualmente a ese host los ficheros: `index.html`, `style.css`, `app.js`, `exam_data.js`, `exam_catalog.json`.
 - Posible mejora futura: representar los grafos de precedencia con un dibujo SVG en lugar de lista de aristas; añadir más problemas/auto-evaluación al Tema 3.
