@@ -1,2 +1,11 @@
 .DS_Store
 Thumbs.db
+
+# Artefactos de pruebas locales (Playwright / capturas)
+.playwright-mcp/
+tema3-*.png
+page-*.png
+
+# Material fuente (PDFs originales del temario)
+ABD-EB-Chapter3.pdf
+Ejercicios1_ABDTema3.pdf
