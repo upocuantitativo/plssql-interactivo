@@ -1456,7 +1456,7 @@ END LOOP;
  tabs:['teoria','vf','problemas'],
  tabLabels:{vf:'⚖️ Verdadero / Falso', problemas:'🧩 Problemas resueltos'},
  guia:`
-<p>Antes de resolver los problemas, este es el <b>método general</b> que seguimos en clase para decidir si una planificación es conflicto-serializable. Se apoya en dos herramientas: una <b>tabla de accesos</b> (qué transacción toca qué dato) y el <b>grafo de precedencia</b>. Las fotos son de la pizarra de la EPD.</p>
+<p>Antes de resolver los problemas, este es el <b>método general</b> que seguimos en clase para decidir si una planificación es conflicto-serializable. Se apoya en dos herramientas: una <b>tabla de accesos</b> (qué transacción toca qué dato) y el <b>grafo de precedencia</b>.</p>
 
 <h4>Paso 1 · Identifica transacciones y objetos</h4>
 <p>Mira los <b>subíndices</b> de las acciones: son las transacciones (serán las <b>filas</b> de la tabla). Mira las <b>letras entre paréntesis</b>: son los objetos/datos (serán las <b>columnas</b>). Usaremos como ejemplo el schedule del Problema 1:</p>
@@ -1475,8 +1475,6 @@ END LOOP;
   <tr><td><b>T7</b></td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>r</td></tr>
 </table>
 <p class="muted"><small>💡 Truco: cada <b>columna</b> te dice qué transacciones compiten por ese dato. Solo dentro de una misma columna puede haber conflictos; las columnas con una sola transacción (B, E, X aquí) nunca generan aristas.</small></p>
-<img class="bb-photo" src="PXL_20260511_153437008.jpg" alt="Tabla transacción × dato dibujada en la pizarra" loading="lazy">
-<div class="bb-cap">Foto de pizarra: la tabla transacción × dato para otro schedule (el del Problema 5, con su esquema de bloqueos). Cada X indica que esa transacción accede a ese dato.</div>
 
 <h4>Paso 3 · De la tabla a las aristas: busca conflictos columna a columna</h4>
 <p>Recuerda la regla: <b>dos acciones están en conflicto si tocan el mismo objeto y al menos una es escritura.</b> Si una acción de Ti ocurre <b>antes</b> que otra de Tj en conflicto, dibujamos la arista <code>Ti → Tj</code>. Revisamos columna por columna, respetando el orden temporal de S:</p>
@@ -1514,8 +1512,6 @@ END LOOP;
     <circle cx="430" cy="110" r="18" fill="#fff" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="3 3"/><text x="430" y="115" fill="#94a3b8">T7</text>
   </g>
 </svg>
-<img class="bb-photo" src="PXL_20260511_152023812.jpg" alt="Grafo de precedencia dibujado en la pizarra" loading="lazy">
-<div class="bb-cap">Foto de pizarra: el mismo grafo de precedencia del schedule del Problema 1 (nodos 1–5 conectados, el 7 aislado).</div>
 <p><b>Cómo leer el grafo:</b></p>
 <ul>
   <li>Si el grafo tiene un <b>ciclo</b> ⇒ la planificación <b>NO</b> es conflicto-serializable.</li>
