@@ -1455,6 +1455,74 @@ END LOOP;
  desc:'Transacciones, ACID/BASE, planificaciones, grafo de precedencia, bloqueo en dos fases y control multiversión (Oracle/MongoDB)',
  tabs:['teoria','vf','problemas'],
  tabLabels:{vf:'⚖️ Verdadero / Falso', problemas:'🧩 Problemas resueltos'},
+ guia:`
+<p>Antes de resolver los problemas, este es el <b>método general</b> que seguimos en clase para decidir si una planificación es conflicto-serializable. Se apoya en dos herramientas: una <b>tabla de accesos</b> (qué transacción toca qué dato) y el <b>grafo de precedencia</b>. Las fotos son de la pizarra de la EPD.</p>
+
+<h4>Paso 1 · Identifica transacciones y objetos</h4>
+<p>Mira los <b>subíndices</b> de las acciones: son las transacciones (serán las <b>filas</b> de la tabla). Mira las <b>letras entre paréntesis</b>: son los objetos/datos (serán las <b>columnas</b>). Usaremos como ejemplo el schedule del Problema 1:</p>
+<span class="sched">S = r5(A) w3(B) w2(A) w5(C) r4(C) r2(C) r4(D) w1(C) w3(D) r2(F) r1(E) w1(F) r7(X)</span>
+<p>Transacciones: <b>T1, T2, T3, T4, T5, T7</b>. Objetos: <b>A, B, C, D, E, F, X</b>.</p>
+
+<h4>Paso 2 · Construye la tabla de accesos (transacción × objeto)</h4>
+<p>Recorre S de izquierda a derecha. Por cada acción <code>pi(X)</code> anota en la celda (fila Ti, columna X) si es <b>lectura (r)</b> o <b>escritura (w)</b>. En la pizarra a veces solo se pone una <b>X</b>; anotar r/w es más útil porque el conflicto necesita al menos una escritura.</p>
+<table>
+  <tr><th>↓ T / dato →</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>X</th></tr>
+  <tr><td><b>T1</b></td><td>–</td><td>–</td><td>w</td><td>–</td><td>r</td><td>w</td><td>–</td></tr>
+  <tr><td><b>T2</b></td><td>w</td><td>–</td><td>r</td><td>–</td><td>–</td><td>r</td><td>–</td></tr>
+  <tr><td><b>T3</b></td><td>–</td><td>w</td><td>–</td><td>w</td><td>–</td><td>–</td><td>–</td></tr>
+  <tr><td><b>T4</b></td><td>–</td><td>–</td><td>r</td><td>r</td><td>–</td><td>–</td><td>–</td></tr>
+  <tr><td><b>T5</b></td><td>r</td><td>–</td><td>w</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+  <tr><td><b>T7</b></td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>r</td></tr>
+</table>
+<p class="muted"><small>💡 Truco: cada <b>columna</b> te dice qué transacciones compiten por ese dato. Solo dentro de una misma columna puede haber conflictos; las columnas con una sola transacción (B, E, X aquí) nunca generan aristas.</small></p>
+<img class="bb-photo" src="PXL_20260511_153437008.jpg" alt="Tabla transacción × dato dibujada en la pizarra" loading="lazy">
+<div class="bb-cap">Foto de pizarra: la tabla transacción × dato para otro schedule (el del Problema 5, con su esquema de bloqueos). Cada X indica que esa transacción accede a ese dato.</div>
+
+<h4>Paso 3 · De la tabla a las aristas: busca conflictos columna a columna</h4>
+<p>Recuerda la regla: <b>dos acciones están en conflicto si tocan el mismo objeto y al menos una es escritura.</b> Si una acción de Ti ocurre <b>antes</b> que otra de Tj en conflicto, dibujamos la arista <code>Ti → Tj</code>. Revisamos columna por columna, respetando el orden temporal de S:</p>
+<ul>
+  <li><b>A</b> (r5, w2): r5(A) antes de w2(A) ⇒ <code>T5→T2</code></li>
+  <li><b>C</b> (w5, r4, r2, w1): w5(C) antes de r4/r2/w1 ⇒ <code>T5→T4</code>, <code>T5→T2</code>, <code>T5→T1</code>; r4(C) y r2(C) antes de w1(C) ⇒ <code>T4→T1</code>, <code>T2→T1</code>. <em>(r4 y r2 entre sí NO: dos lecturas nunca chocan.)</em></li>
+  <li><b>D</b> (r4, w3): r4(D) antes de w3(D) ⇒ <code>T4→T3</code></li>
+  <li><b>F</b> (r2, w1): r2(F) antes de w1(F) ⇒ <code>T2→T1</code> (ya la teníamos)</li>
+  <li><b>B, E, X</b>: una sola transacción cada uno ⇒ sin aristas. <b>T7</b> queda aislado.</li>
+</ul>
+<div class="gph">Aristas: <b>T5→T2</b>, <b>T5→T4</b>, <b>T5→T1</b>, <b>T4→T1</b>, <b>T2→T1</b>, <b>T4→T3</b> · (T7 aislado)</div>
+
+<h4>Paso 4 · Dibuja el grafo y léelo</h4>
+<p>Cada transacción es un <b>nodo</b>; cada conflicto, una <b>flecha</b>. Colocando los nodos por capas (los que no reciben flechas a la izquierda) el grafo queda así:</p>
+<svg class="svg-graph" viewBox="0 0 470 220" role="img" aria-label="Grafo de precedencia: T5 apunta a T4, T2 y T1; T4 apunta a T1 y T3; T2 apunta a T1; T7 aislado">
+  <defs>
+    <marker id="ah3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#3b82f6"/>
+    </marker>
+  </defs>
+  <g stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#ah3)">
+    <line x1="71" y1="103" x2="159" y2="63"/>
+    <line x1="71" y1="117" x2="159" y2="147"/>
+    <line x1="73" y1="114" x2="287" y2="161"/>
+    <line x1="193" y1="55" x2="287" y2="55"/>
+    <line x1="189" y1="67" x2="291" y2="153"/>
+    <line x1="193" y1="165" x2="287" y2="165"/>
+  </g>
+  <g font-family="Segoe UI,system-ui,sans-serif" font-size="14" font-weight="700" text-anchor="middle">
+    <circle cx="55" cy="110" r="18" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="55" y="115" fill="#0f172a">T5</text>
+    <circle cx="175" cy="55" r="18" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="175" y="60" fill="#0f172a">T4</text>
+    <circle cx="175" cy="165" r="18" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="175" y="170" fill="#0f172a">T2</text>
+    <circle cx="305" cy="55" r="18" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="305" y="60" fill="#0f172a">T3</text>
+    <circle cx="305" cy="165" r="18" fill="#fff" stroke="#3b82f6" stroke-width="2"/><text x="305" y="170" fill="#0f172a">T1</text>
+    <circle cx="430" cy="110" r="18" fill="#fff" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="3 3"/><text x="430" y="115" fill="#94a3b8">T7</text>
+  </g>
+</svg>
+<img class="bb-photo" src="PXL_20260511_152023812.jpg" alt="Grafo de precedencia dibujado en la pizarra" loading="lazy">
+<div class="bb-cap">Foto de pizarra: el mismo grafo de precedencia del schedule del Problema 1 (nodos 1–5 conectados, el 7 aislado).</div>
+<p><b>Cómo leer el grafo:</b></p>
+<ul>
+  <li>Si el grafo tiene un <b>ciclo</b> ⇒ la planificación <b>NO</b> es conflicto-serializable.</li>
+  <li>Si es <b>acíclico</b> ⇒ <b>SÍ</b> lo es; un <b>orden topológico</b> (sigue las flechas, de los nodos sin entradas hacia los nodos sin salidas) da una planificación serie equivalente.</li>
+</ul>
+<div class="verdict yes">Aquí el grafo es ACÍCLICO ⇒ S es conflicto-serializable. Un orden topológico es <b>T5 → T4 → T2 → T3 → T1</b> (T7 puede ir en cualquier posición).</div>
+<p class="muted"><small>Este es exactamente el procedimiento que se aplica en los Problemas 1–7. La tabla no es obligatoria, pero evita que se te escape un conflicto al hacer el grafo a mano.</small></p>`,
  teoria:[
   {title:'Transacciones, COMMIT/ROLLBACK, ACID y BASE',html:`
 <p>Una <strong>transacción</strong> es un conjunto de acciones sobre la base de datos que se tratan como una <strong>única unidad</strong> (todo o nada). Ejemplo: una transferencia bancaria lee la cuenta origen, la modifica, modifica la cuenta destino e inserta un movimiento.</p>
@@ -2052,6 +2120,10 @@ function renderProblemas(b){
     <h2>🧩 Problemas resueltos</h2>
     <p>${b.problemas.length} problemas del boletín "Tema 3: Concurrencia" con resolución razonada paso a paso</p>
   </div>
+  ${b.guia?`<details class="prob-sol metodo-card" open>
+    <summary>📋 Cómo construir la tabla de accesos y el grafo de precedencia (paso a paso)</summary>
+    <div class="prob-sol-body">${b.guia}</div>
+  </details>`:''}
   <div class="ex-list">${b.problemas.map((p,i)=>`
     <div class="ex-card prob-card">
       <div class="ex-head">

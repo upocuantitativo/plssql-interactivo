@@ -215,6 +215,15 @@ pre .tp{color:#fcd34d}
 .verdict.yes{background:#f0fdf4;border:1px solid var(--ok);color:var(--ok)}
 .verdict.no{background:#fef2f2;border:1px solid var(--err);color:var(--err)}
 .prob-card .exam-lbl{margin-right:2px}
+/* ── GUÍA / MÉTODO PASO A PASO ── */
+.metodo-card{border:1px solid var(--acc);background:#fffaf5;margin-bottom:16px}
+.metodo-card>summary{color:var(--acc)}
+.metodo-card>summary:hover{background:rgba(249,115,22,.08)}
+.metodo-card[open]{box-shadow:0 1px 6px rgba(249,115,22,.12)}
+.metodo-card .prob-sol-body{background:transparent}
+.bb-photo{display:block;width:100%;max-width:540px;margin:10px auto 4px;border:1px solid var(--bd);border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.bb-cap{font-size:11px;color:var(--tx3);text-align:center;font-style:italic;margin:0 auto 14px;max-width:540px;line-height:1.5}
+.svg-graph{display:block;width:100%;max-width:440px;height:auto;margin:12px auto;background:#f8fafc;border:1px dashed var(--acc2);border-radius:8px;padding:6px}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){

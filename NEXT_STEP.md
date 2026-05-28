@@ -9,7 +9,14 @@
 - Sistema de pestañas hecho configurable por bloque (`tabs` + `tabLabels`); nuevos tipos `vf` y `problemas`; puntuación global ampliada con `vf`.
 - Verificado en navegador (Playwright): renderizado, interacción V/F y despliegue de soluciones OK. Sin errores de consola (salvo favicon 404).
 
+## Hecho (cont.)
+- **Guía "paso a paso" en Problemas resueltos del Tema 3**: tarjeta destacada (abierta por defecto) al inicio de la pestaña que explica, paso a paso, cómo construir la **tabla de accesos** (transacción × dato) y el **grafo de precedencia**.
+  - Incluye una versión limpia: tabla HTML con r/w por celda (schedule del Problema 1) + un **grafo SVG** dibujado con nodos y flechas (T5→T2/T4/T1, T4→T1/T3, T2→T1, T7 aislado).
+  - Incluye las **dos fotos de pizarra** como referencia real: `PXL_20260511_153437008.jpg` (tabla, schedule del Problema 5) y `PXL_20260511_152023812.jpg` (grafo, schedule del Problema 1).
+  - Nuevo campo `guia` en el bloque `tema3`; `renderProblemas` lo pinta antes de la lista. Nuevo CSS: `.metodo-card`, `.bb-photo`, `.bb-cap`, `.svg-graph`.
+  - Verificado en navegador (Playwright): tarjeta abierta, SVG (6 nodos/6 aristas), tabla (7 filas) y ambas fotos cargan. Sin errores de consola salvo favicon 404.
+
 ## Siguiente paso
-- Cambios commiteados y subidos a GitHub (`origin/master` → upocuantitativo/plssql-interactivo).
-- **PENDIENTE: desplegar en https://upo.digital/plssql/** — OJO: ese sitio NO es GitHub Pages, corre sobre un servidor **LiteSpeed** (hosting tipo cPanel) que se actualiza por separado (FTP/SFTP/cPanel). El push a GitHub no lo actualiza. Hay que subir manualmente a ese host los ficheros: `index.html`, `style.css`, `app.js`, `exam_data.js`, `exam_catalog.json`.
-- Posible mejora futura: representar los grafos de precedencia con un dibujo SVG en lugar de lista de aristas; añadir más problemas/auto-evaluación al Tema 3.
+- **PENDIENTE: desplegar en https://upo.digital/plssql/** — ese sitio NO es GitHub Pages; corre sobre **LiteSpeed** (hosting tipo cPanel) que se actualiza por separado (FTP/SFTP/cPanel). El push a GitHub NO lo actualiza. Faltan credenciales/método de subida (no hay nada guardado en el repo ni en `~/.ssh`).
+  - Ficheros a subir a ese host (raíz `/plssql/`): `index.html`, `style.css`, `app.js`, `exam_data.js`, `exam_catalog.json` **y AHORA TAMBIÉN las 2 imágenes** `PXL_20260511_153437008.jpg` y `PXL_20260511_152023812.jpg` (si no, los `<img>` darán 404 en producción).
+- Posible mejora futura: añadir más problemas/auto-evaluación al Tema 3; aplicar el mismo grafo SVG a los Problemas 1–7.
